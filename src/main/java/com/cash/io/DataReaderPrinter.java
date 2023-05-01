@@ -2,8 +2,10 @@ package com.cash.io;
 
 import com.cash.model.Transaction;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class DataReaderPrinter {
 
@@ -26,14 +28,14 @@ public class DataReaderPrinter {
     }
 
     public Transaction readAndCreateTransaction() {
-        printLine("Opis kosztu");
+        printLine("Opis transakcji");
         String description = scanner.nextLine();
-        printLine("Typ kosztu:");
+        printLine("Typ transakcji:");
         String type = getType();
         printLine("Kwota w zł");
         double amount = scanner.nextDouble();
         scanner.nextLine();
-        printLine("Data tranzakcji yyyy-MM-dd");
+        printLine("Data transakcji yyyy-MM-dd");
         String date = scanner.nextLine();
         printLine("Wprowadzono zmiany");
 
@@ -44,14 +46,14 @@ public class DataReaderPrinter {
     public Transaction editTransaction() {
 
         int id = getId();
-        printLine("Typ kosztu:");
+        printLine("Typ transakcji:");
         String type = getType();
-        printLine("Opis kosztu");
+        printLine("Opis transakcji");
         String description = scanner.nextLine();
         printLine("Kwota w zł");
         double amount = scanner.nextDouble();
         scanner.nextLine();
-        printLine("Data tranzakcji yyyy-MM-dd");
+        printLine("Data transakcji yyyy-MM-dd");
         String date = scanner.nextLine();
         printLine("Wprowadzono zmiany");
 
@@ -86,5 +88,11 @@ public class DataReaderPrinter {
     public int getId() {
         printLine("Podaj Id");
         return getInt();
+    }
+
+    public void printList(ArrayList<Transaction> transactionsList) {
+        for (Transaction transaction : transactionsList) {
+            printLine(transaction.toString());
+        }
     }
 }

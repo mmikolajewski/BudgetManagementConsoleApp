@@ -3,6 +3,7 @@ package com.cash.io;
 import com.cash.model.Transaction;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class TransactionDao {
 
@@ -32,45 +33,46 @@ public class TransactionDao {
 
     }
 
-    public void printAllTransactions() {
+    public ArrayList<Transaction> allTransactions() {
+        ArrayList<Transaction> allTransactions;
         String sql = "SELECT * FROM transaction";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String type = resultSet.getString("type");
-                String description = resultSet.getString("description");
-                double amount = resultSet.getDouble("amount");
-                String date = resultSet.getString("date");
-
-                String transaction = new Transaction(id, type, description, amount, date).toString();
-                System.out.println(transaction);
-            }
+            allTransactions = collectResultFromSqlAndAddToList(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return allTransactions;
     }
 
-    public void transactionsByType(String SearchType) {
+    private static ArrayList<Transaction> collectResultFromSqlAndAddToList(ResultSet resultSet) throws SQLException {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String type = resultSet.getString("type");
+            String description = resultSet.getString("description");
+            double amount = resultSet.getDouble("amount");
+            String date = resultSet.getString("date");
+
+            Transaction transaction = new Transaction(id, type, description, amount, date);
+            transactions.add(transaction);
+        }
+        return transactions;
+    }
+
+    public ArrayList<Transaction> transactionsByType(String SearchType) {
+        ArrayList<Transaction> transactionsByType;
         try {
             String sql = "SELECT * FROM transaction WHERE type = ? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, SearchType);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String type = resultSet.getString("type");
-                String description = resultSet.getString("description");
-                double amount = resultSet.getDouble("amount");
-                String date = resultSet.getString("date");
-
-                String transaction = new Transaction(id, type, description, amount, date).toString();
-                System.out.println(transaction);
-            }
+            transactionsByType = collectResultFromSqlAndAddToList(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return transactionsByType;
     }
 
 

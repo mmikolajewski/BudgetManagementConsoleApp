@@ -5,15 +5,16 @@ import com.cash.io.DataReaderPrinter;
 import com.cash.io.TransactionDao;
 import com.cash.model.Transaction;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 public class HouseHoldControl {
     private final static String INCOME = "przychod";
     private final static String EXPENSE = "wydatek";
 
-    TransactionDao transactionDao = new TransactionDao();
+    private final TransactionDao transactionDao = new TransactionDao();
 
-    DataReaderPrinter dataReaderPrinter = new DataReaderPrinter();
+    private final DataReaderPrinter dataReaderPrinter = new DataReaderPrinter();
 
     void controlLoop() {
         MainOption mainOption;
@@ -46,16 +47,16 @@ public class HouseHoldControl {
     }
 
     private void printExpenses() {
-        transactionDao.transactionsByType(EXPENSE);
+        dataReaderPrinter.printList(transactionDao.transactionsByType(EXPENSE));
     }
 
     private void printIncomes() {
-        transactionDao.transactionsByType(INCOME);
+        dataReaderPrinter.printList(transactionDao.transactionsByType(INCOME));
 
     }
 
     private void deleteTransaction() {
-        transactionDao.printAllTransactions();
+        dataReaderPrinter.printList(transactionDao.allTransactions());
         int id = dataReaderPrinter.getId();
         transactionDao.delete(id);
     }
@@ -66,7 +67,7 @@ public class HouseHoldControl {
     }
 
     private void updateTransaction() {
-        transactionDao.printAllTransactions();
+        dataReaderPrinter.printList(transactionDao.allTransactions());
         Transaction transaction = dataReaderPrinter.editTransaction();
         transactionDao.update(transaction);
     }

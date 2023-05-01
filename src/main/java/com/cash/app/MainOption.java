@@ -5,9 +5,9 @@ import com.cash.exceptions.NoSuchOptionException;
 public enum MainOption {
 
     EXIT(0, "Wyjście z programu"),
-    ADD_TRANSACTION(1, "Dodanie tranzakcji"),
-    UPDATE_TRANSACTION(2, "Modyfikacja tranzakcji"),
-    DELETE_TRANSACTIONS(3, "usuwanie tranzakcji"),
+    ADD_TRANSACTION(1, "Dodanie transakcji"),
+    UPDATE_TRANSACTION(2, "Modyfikacja transakcji"),
+    DELETE_TRANSACTIONS(3, "usuwanie transakcji"),
     PRINT_INCOMES(4, "wyświetlanie listy przychodów"),
     PRINT_EXPENSES(5, "wyświetlanie listy wydatków");
 
